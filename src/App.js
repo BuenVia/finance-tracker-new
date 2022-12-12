@@ -42,6 +42,26 @@ export default function App() {
     })
   }
 
+ // Delete item
+  function delItem(res) {
+    const x = JSON.parse(res)
+    setItemArr(prevVals => {
+      return prevVals.filter(item => item.id !== x.id)
+    })
+    setTotals(prevVals => {
+      if(x.type === 'credit') {
+        return {
+          ...prevVals,
+          credit: prevVals.credit - x.amount
+        }
+      } else if (x.type === 'debit') {
+        return {
+          ...prevVals,
+          debit: prevVals.debit - x.amount
+        }
+      }
+    })
+  }
 
   return (
     <div>
@@ -49,7 +69,7 @@ export default function App() {
       <div className="container">
         <InputForm addItem={addItem} />
         <SummaryBox totals={totals} />
-        <ItemBox items={itemArr} />
+        <ItemBox items={itemArr} delItem={delItem} />
       </div>
     </div>
   )

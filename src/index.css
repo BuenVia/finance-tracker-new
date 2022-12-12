@@ -43,3 +43,11 @@ tbody {
   width: 100%;
   text-align: center;
 }
+
+.credit {
+  color: green
+}
+
+.debit {
+  color: red;
+}

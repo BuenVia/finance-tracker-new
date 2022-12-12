@@ -1,4 +1,14 @@
 export default function ItemBox(props) {
+
+    function handleClick(e) {
+        props.delItem(e.target.value)
+    }
+
+    // Capitalize all first letters
+    function caps(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1)
+    }
+
     return (
         <div className="section">
             {props.items.length === 0 ? 
@@ -6,7 +16,7 @@ export default function ItemBox(props) {
                     <p>Nothing spent</p>
                 </div> 
                 :
-                <table className="table table-dark table-striped">
+                <table className="table table-dark">
                     <thead>
                         <tr>
                             <th>Type</th>
@@ -14,19 +24,19 @@ export default function ItemBox(props) {
                             <th>Category</th>
                             <th>Item</th>
                             <th>Date</th>
-                            <th>Del</th>
+                            <th></th>
                         </tr>
                     </thead> 
                     <tbody>
                         {props.items.map(item => {
                             return (
                                 <tr key={item.id}>
-                                    <td>{item.type}</td>
-                                    <td>£{item.amount}</td>
-                                    <td>{item.cat}</td>
-                                    <td>{item.item}</td>
+                                    <td>{caps(item.type)}</td>
+                                    <td className={item.type === 'credit' ? 'credit' : 'debit'}>£{item.amount}</td>
+                                    <td>{caps(item.cat)}</td>
+                                    <td>{caps(item.item)}</td>
                                     <td>{new Date(item.date).toDateString()}</td>
-                                    <td>x</td>
+                                    <td><button className="btn btn-danger" value={JSON.stringify(item)} onClick={handleClick}>Del</button></td>
                                 </tr>
                             )
                         })} 
