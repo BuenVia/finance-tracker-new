@@ -2,6 +2,10 @@ import { useState } from "react"
 
 export default function InputForm(props) {
 
+    const [message, setMessage] = useState({
+        text: '',
+        color: ''
+    })
     const [formDetails, setFormDetails] = useState({
         type: '',
         amount: '',
@@ -22,14 +26,22 @@ export default function InputForm(props) {
 
     function handleClick(e) {
         e.preventDefault()
-        props.addItem(formDetails);
-        setFormDetails({
-            type: '',
-            amount: '',
-            cat: '',
-            item: '',
-            date: ''
-        })
+        if (formDetails.amount === '' || formDetails.cat === '' || formDetails.date === '' || formDetails.item === '' || formDetails.type === '') {
+            setMessage({
+                text: "Please fill in all fields",
+                color: 'red'
+            })
+        } else {
+            props.addItem(formDetails);
+            setFormDetails({
+                type: '',
+                amount: '',
+                cat: '',
+                item: '',
+                date: ''
+            })
+            setMessage('')
+        }
     }
 
     function handleClear(e) {
@@ -46,6 +58,7 @@ export default function InputForm(props) {
     return (
         <div className="section">
             <h4>Input Form</h4>
+            <p style={{color: message.color}}>{message.text}</p>
             <form className="row">
                 <div className="col-md-2">
                     <label htmlFor="type" className="form-label">Type</label>
@@ -57,7 +70,7 @@ export default function InputForm(props) {
                 </div>
                 <div className="col-md-1">
                     <label htmlFor="amount" className="form-label">Amount</label>
-                    <input type="number" name="amount" className="form-control" placeholder="00.00" onChange={handleChange} value={formDetails.amount}/>
+                    <input type="number" name="amount" className="form-control" placeholder="00.00" min="0" onChange={handleChange} value={formDetails.amount}/>
                 </div>
                 <div className="col-md-3">
                     <label htmlFor="cat" className="form-label">Category</label>
