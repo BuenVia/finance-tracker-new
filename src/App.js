@@ -9,7 +9,9 @@ export default function App() {
   const [itemArr, setItemArr] = useState([])
   const [totals, setTotals] = useState({
     credit: 0,
-    debit: 0
+    creditTotal: 0,
+    debit: 0,
+    debitTotal: 0
   })
 
 
@@ -21,12 +23,14 @@ export default function App() {
       if (item.type === 'credit') {
         return {
           ...prevVals,
-        credit: prevVals.credit + parseFloat(item.amount)
+        credit: prevVals.credit + parseFloat(item.amount),
+        creditTotal: prevVals.creditTotal + 1
         }
       } else if (item.type === 'debit') {
         return {
           ...prevVals,
-          debit: prevVals.debit + parseFloat(item.amount)
+          debit: prevVals.debit + parseFloat(item.amount),
+          debitTotal: prevVals.debitTotal + 1
         }
       }
       
@@ -52,12 +56,14 @@ export default function App() {
       if(x.type === 'credit') {
         return {
           ...prevVals,
-          credit: prevVals.credit - x.amount
+          credit: prevVals.credit - x.amount,
+          creditTotal: prevVals.creditTotal - 1
         }
       } else if (x.type === 'debit') {
         return {
           ...prevVals,
-          debit: prevVals.debit - x.amount
+          debit: prevVals.debit - x.amount,
+          debitTotal: prevVals.debitTotal - 1
         }
       }
     })
